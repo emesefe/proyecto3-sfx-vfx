@@ -3,14 +3,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRigidbody; // = null
-    private float forceMagnitude = 10f;
+    private float forceMagnitude = 7.5f;
 
     private bool isOnTheGround;
     public bool isGameOver;
 
+    private Animator playerAnimator;
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        playerAnimator = GetComponent<Animator>();
 
         isOnTheGround = true;
         isGameOver = false;
@@ -18,11 +21,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnTheGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isOnTheGround && !isGameOver)
         {
-            playerRigidbody.AddForce(Vector3.up * forceMagnitude, 
-                ForceMode.Impulse);
-            isOnTheGround = false;
+            Jump();
         }
     }
 
@@ -38,5 +39,15 @@ public class PlayerController : MonoBehaviour
             Debug.Log("GAME OVER");
             isGameOver = true;
         }
+    }
+
+    private void Jump()
+    {
+        playerRigidbody.AddForce(Vector3.up * forceMagnitude, 
+            ForceMode.Impulse);
+        isOnTheGround = false;
+        
+        // Animación de salto
+        playerAnimator.SetTrigger("Jump_trig");
     }
 }
