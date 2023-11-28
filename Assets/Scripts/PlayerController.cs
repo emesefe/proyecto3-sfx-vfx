@@ -22,10 +22,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem deathParticleSystem;
     [SerializeField] private ParticleSystem dirtParticleSystem;
 
+    private AudioSource playerAudioSource;
+    [SerializeField] private AudioClip jumpClip;
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
+        playerAudioSource = GetComponent<AudioSource>();
 
         isOnTheGround = true;
         isGameOver = false;
