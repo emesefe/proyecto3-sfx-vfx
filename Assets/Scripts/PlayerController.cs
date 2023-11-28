@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource playerAudioSource;
     [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip crashClip;
+
+    [SerializeField] private AudioSource cameraAudioSource;
 
     private void Awake()
     {
@@ -70,6 +73,10 @@ public class PlayerController : MonoBehaviour
         // Sistema de partículas
         deathParticleSystem.Play();
         dirtParticleSystem.Stop();
+        
+        // Music & SFX
+        playerAudioSource.PlayOneShot(crashClip, 1f);
+        cameraAudioSource.volume = 0.01f;
     }
 
     private void Jump()
@@ -83,5 +90,8 @@ public class PlayerController : MonoBehaviour
         
         // Sistema de partículas
         dirtParticleSystem.Stop();
+        
+        // Reproducir un SFX
+        playerAudioSource.PlayOneShot(jumpClip, 1f);
     }
 }
