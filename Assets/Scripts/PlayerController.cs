@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region CONSTANTS
     private const string OBSTACLE_TAG = "Obstacle";
     private const string GROUND_TAG = "Ground";
 
     private const string JUMP_TRIG = "Jump_trig";
     private const string DEATH_BOOL = "Death_b";
     private const string DEATH_TYPE_INT = "DeathType_int";
+    #endregion
     
     private Rigidbody playerRigidbody; // = null
     private float forceMagnitude = 7.5f;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Animator playerAnimator;
 
     [SerializeField] private ParticleSystem deathParticleSystem;
+    [SerializeField] private ParticleSystem dirtParticleSystem;
 
     private void Awake()
     {
@@ -41,6 +44,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag(GROUND_TAG)) // Hemos colisionado con el suelo
         {
             isOnTheGround = true;
+            dirtParticleSystem.Play();
         }
 
         if (collision.gameObject.CompareTag(OBSTACLE_TAG)) // Hemos colisionado con un obstáculo
@@ -61,6 +65,7 @@ public class PlayerController : MonoBehaviour
         
         // Sistema de partículas
         deathParticleSystem.Play();
+        dirtParticleSystem.Stop();
     }
 
     private void Jump()
@@ -71,5 +76,8 @@ public class PlayerController : MonoBehaviour
         
         // Animación de salto
         playerAnimator.SetTrigger(JUMP_TRIG);
+        
+        // Sistema de partículas
+        dirtParticleSystem.Stop();
     }
 }
